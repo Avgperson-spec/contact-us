@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us for Delivery</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>Contact Us for Delivery</h1>
+        </div>
+    </header>
+
+    <main>
+        <section class="contact">
+            <div class="container">
+                <h2>Get in Touch</h2>
+                <p>If you have any questions or want to arrange a delivery, feel free to reach out via Facebook!</p>
+                <a href="https://www.facebook.com/realaljin.caraig" target="_blank" id="facebookLink">
+                    <button id="contactButton" disabled>Contact Us for Delivery</button>
+                </a>
+                <p id="statusMessage" class="status-message"></p>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        // Enable the button after the page loads with a smooth effect
+        window.onload = function() {
+            const currentDate = new Date();
+            const currentHour = currentDate.getHours(); // Get the current hour (0-23)
+
+            // Define the opening hours (6 AM to 1 PM)
+            const openHour = 6;
+            const closeHour = 13; // 1 PM
+
+            // If it's within business hours, enable the button
+            if (currentHour >= openHour && currentHour < closeHour) {
+                setTimeout(function() {
+                    document.getElementById('contactButton').disabled = false; // Enable the button
+                    document.getElementById('contactButton').classList.add('button-appear'); // Add animation class
+                    document.getElementById('statusMessage').textContent = 'We are open! Feel free to contact us.';
+                    document.getElementById('statusMessage').style.color = '#00FF00'; // Green for open
+                }, 2000); // Wait 2 seconds before enabling the button
+            } else {
+                document.getElementById('statusMessage').textContent = 'Sorry, we are currently closed. Our business hours are from 6 AM to 1 PM.';
+                document.getElementById('statusMessage').style.color = '#FF0000'; // Red for closed
+            }
+        };
+    </script>
+</body>
+</html>
