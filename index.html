@@ -22,24 +22,58 @@
                     <button id="contactButton" disabled>Contact Us for Delivery</button>
                 </a>
                 <p id="statusMessage" class="status-message"></p>
+                <p id="countdownMessage" class="countdown-message"></p> <!-- Countdown message -->
             </div>
         </section>
     </main>
 
     <script>
-        // Enable the button after the page loads with a smooth effect
+        // Function to calculate the time remaining until 6 AM tomorrow
+        function updateCountdown() {
+            const currentDate = new Date();
+            const currentHour = currentDate.getHours();
+            const currentMinute = currentDate.getMinutes();
+            const currentSecond = currentDate.getSeconds();
+            const currentMilliseconds = currentDate.getMilliseconds();
+
+            // Set opening time to 6 AM the next day
+            let openingTime = new Date();
+            if (currentHour >= 6) {
+                openingTime.setDate(openingTime.getDate() + 1); // Set for the next day
+            }
+            openingTime.setHours(6, 0, 0, 0); // 6 AM next day
+
+            // Calculate the difference between now and the opening time
+            const timeDifference = openingTime - currentDate;
+
+            // If it's closed, display the countdown
+            if (timeDifference > 0) {
+                // Calculate the hours, minutes, and seconds left
+                const hoursLeft = Math.floor(timeDifference / (1000 * 60 * 60));
+                const minutesLeft = Math.floor((timeDifference % (1000 * 60 * 60)) / (1000 * 60));
+                const secondsLeft = Math.floor((timeDifference % (1000 * 60)) / 1000);
+
+                // Show countdown
+                document.getElementById('countdownMessage').innerText = `Reopening in: ${hoursLeft}h ${minutesLeft}m ${secondsLeft}s`;
+            } else {
+                document.getElementById('countdownMessage').innerText = 'We are now open!';
+            }
+        }
+
+        // Update the countdown every second
+        setInterval(updateCountdown, 1000);
+
+        // Function to check if the site is open or closed
         window.onload = function() {
             const currentDate = new Date();
-            const currentHour = currentDate.getHours(); // Get the current hour (0-23)
-
-            // Define the opening hours (6 AM to 1 PM)
-            const openHour = 6;
+            const currentHour = currentDate.getHours();
+            const openHour = 6; // 6 AM
             const closeHour = 13; // 1 PM
 
             // If it's within business hours, enable the button
             if (currentHour >= openHour && currentHour < closeHour) {
                 setTimeout(function() {
-                    document.getElementById('contactButton').disabled = false; // Enable the button
+                    document.getElementById('contactButton').disabled = false;
                     document.getElementById('contactButton').classList.add('button-appear'); // Add animation class
                     document.getElementById('statusMessage').textContent = 'We are open! Feel free to contact us.';
                     document.getElementById('statusMessage').style.color = '#00FF00'; // Green for open
